@@ -27,6 +27,8 @@ var svgMap = d3.select("div#map").append("svg")
 var zoneTooltip = d3.select("div#map").append("div").attr("class", "zoneTooltip"),
 infoLabel = d3.select("div#map").append("div").attr("class", "infoLabel");
 
+var countryList = d3.select("body").append("select").attr("name", "countries");
+
 var g = svgMap.append("g");
 
 //Rotate to default before animation
@@ -61,6 +63,14 @@ function ready(error, world, countryData) {
   countryData.forEach(function(d) {
     countryById[d.id] = d.name;
   });
+
+  countryData.forEach(function(d) {
+      countryById[d.id] = d.name;
+      option = countryList.append("option");
+      option.text(d.name);
+      option.property("value", d.id);
+  });
+
 
   //Drawing countries on the globe
 
@@ -133,6 +143,43 @@ function ready(error, world, countryData) {
       , 1600);   
     }
   });
+
+  ///TEST
+
+  d3.select("select").on("change", function() {
+      var rotate = projection.rotate(),
+      focusedCountry = country(countries, this),
+      p = d3.geo.centroid(focusedCountry);
+
+      svgMap.selectAll(".focused").classed("focused", focused = false);
+
+    //Globe rotating
+
+    (function transition() {
+      d3.transition()
+      .duration(2500)
+      .tween("rotate", function() {
+        var r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+        return function(t) {
+          projection.rotate(r(t));
+          svgMap.selectAll("path").attr("d", path)
+          .classed("focused", function(d, i) { return d.id == focusedCountry.id ? focused = d : false; });
+        };
+      })
+      })();
+    });
+
+    function country(cnt, sel) { 
+      for(var i = 0, l = cnt.length; i < l; i++) {
+        if(cnt[i].id == sel.value) {return cnt[i];}
+      }
+    };
+
+
+
+  ///TEST
+
+
 
   //Adding extra data when focused
 
