@@ -50,6 +50,10 @@ svg {
   pointer-events: none;       
 }
 
+.water {
+  fill: #00248F;
+}
+
 .infoLabel span {
   margin: 0px 5px;
 }

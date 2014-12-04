@@ -2,7 +2,7 @@ biojs-vis-iann-3d-globe
 =======================
 
 Interactive 3D Globe for happening events around the world
-
+NOTE: Please Check with browsers if not working on Chrome, maybe Apple Safari or Firefox. 
 
 Features:
 
