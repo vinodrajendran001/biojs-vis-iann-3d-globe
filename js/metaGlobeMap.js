@@ -3,6 +3,11 @@ mapHeight = 500,
 focused = false,
 ortho = true, 
 sens = 0.25;
+k=1;
+x = mapWidth / 2;
+y = mapHeight / 2;
+k = 1;
+centered = null;
 
 var projectionGlobe = d3.geo.orthographic()
 .scale(240)
@@ -125,10 +130,23 @@ function ready(error, world, countryData) {
   })
   .on("click", function(d) {
     if (focused === d) return reset();
-    g.selectAll(".focused").classed("focused", false);
-    d3.select(this).classed("focused", focused = d);
-    infoLabel.text(countryById[d.id])
-    .style("display", "inline");
+    //g.selectAll(".focused").classed("focused", false);
+    //g.transition()
+     // .duration(750)
+     // .attr("transform", "translate(" + mapWidth / 2 + "," + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      //.style("stroke-width", 1.5 / k + "px");
+
+   // d3.select(this).classed("focused", focused = d);
+   // infoLabel.text(countryById[d.id])
+   // .style("display", "inline");
+
+    
+
+ 
+
+ // g.selectAll(".focused")
+   //   .classed("active", centered && function(d) { return d === centered; });
+
 
     //Transforming Globe to Map
 
@@ -139,11 +157,44 @@ function ready(error, world, countryData) {
         projection = projectionMap;
         path.projection(projection);
         g.selectAll("path").transition().duration(5000).attr("d", path);
+        setTimeout(function() {
+        zoomin2D(d);
+      },300
+    );
+
       }
-      , 1600);   
+      , 400);   
+
     }
+    
+   
   });
 
+///
+function zoomin2D(d) 
+{
+var x, y, k, centered;
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = mapWidth / 2;
+    y = mapHeight / 2;
+    k = 1;
+    centered = null;
+  }
+    g.selectAll(".focused").classed("focused", false);
+    g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + mapWidth / 2 + "," + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+
+}
   ///TEST
 
   d3.select("select").on("change", function() {
@@ -200,5 +251,6 @@ function ready(error, world, countryData) {
     path.projection(projection);
     g.selectAll("path").transition().duration(5000).attr("d", path)
     g.selectAll("path").classed("ortho", ortho = true);
+
   }
 };
