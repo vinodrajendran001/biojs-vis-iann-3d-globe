@@ -65,6 +65,9 @@ function ready(error, world, countryData) {
   var countryById = {},
   countries = topojson.feature(world, world.objects.countries).features;
 
+  borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
+
+
   //Adding countries by name
 
   countryData.forEach(function(d) {
@@ -107,15 +110,15 @@ function ready(error, world, countryData) {
   //Events processing
 
   world.on("mouseover", function(d) {
-    if (ortho === true) {
+   // if (ortho === true) {
       infoLabel.text(countryById[d.id])
       .style("display", "inline");
-    } else {
+   // } else {
       zoneTooltip.text(countryById[d.id])
       .style("left", (d3.event.pageX + 7) + "px")
       .style("top", (d3.event.pageY - 15) + "px")
       .style("display", "block");
-    }
+   // }
   })
   .on("mouseout", function(d) {
     if (ortho === true) {
@@ -166,7 +169,7 @@ function ready(error, world, countryData) {
         g.selectAll(".ortho").classed("ortho", ortho = false);
         projection = projectionMap;
         path.projection(projection);
-        g.selectAll("path").transition().duration(5000).attr("d", path);
+        g.selectAll("path").transition().duration(3000).attr("d", path);
 
       //}
       //, 1600);
@@ -179,7 +182,7 @@ function ready(error, world, countryData) {
           };
 
           heres();
-        }, 5000);
+        }, 2000);
     }
     
    
@@ -195,7 +198,7 @@ function zoomin2D(d)
     var centroid = path.centroid(d);
     x = centroid[0];
     y = centroid[1];
-    k = 4;
+    k = 3;
     centered = d;
     console.log("NOW1");
   } else {
