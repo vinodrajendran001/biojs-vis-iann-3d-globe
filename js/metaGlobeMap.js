@@ -9,6 +9,8 @@ y = mapHeight / 2;
 k = 1;
 centered = null;
 
+var zoom2D = false;
+
 var projectionGlobe = d3.geo.orthographic()
 .scale(240)
 .rotate([0, 0])
@@ -128,19 +130,27 @@ function ready(error, world, countryData) {
       .style("top", (d3.event.pageY - 15) + "px");
     }
   })
-  .on("click", function(d) {
-    if (focused === d) return reset();
+  .on("dblclick", function(d) {
+    if (focused === d && zoom2D === true ) {
+      zoom2D = false;
+      zoomin2D(d);
+      return reset();
+
+    }
     //g.selectAll(".focused").classed("focused", false);
     //g.transition()
      // .duration(750)
      // .attr("transform", "translate(" + mapWidth / 2 + "," + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       //.style("stroke-width", 1.5 / k + "px");
 
-   // d3.select(this).classed("focused", focused = d);
+   // d3.select(this).classed("focused", foc === true used = d);
    // infoLabel.text(countryById[d.id])
    // .style("display", "inline");
 
-    
+  g.selectAll(".focused").classed("focused", false);
+    d3.select(this).classed("focused", focused = d);
+    infoLabel.text(countryById[d.id])
+    .style("display", "inline");
 
  
 
@@ -152,45 +162,54 @@ function ready(error, world, countryData) {
 
     if (ortho === true) {
       defaultRotate();
-      setTimeout(function() {
+      //setTimeout(function() {
         g.selectAll(".ortho").classed("ortho", ortho = false);
         projection = projectionMap;
         path.projection(projection);
         g.selectAll("path").transition().duration(5000).attr("d", path);
+
+      //}
+      //, 1600);
+
+        zoom2D = true;
         setTimeout(function() {
-        zoomin2D(d);
-      },300
-    );
+          function heres() {
 
-      }
-      , 400);   
+            zoomin2D(d);
+          };
 
+          heres();
+        }, 5000);
     }
     
    
   });
 
 ///
+
+var x, y, k, centered;
+
 function zoomin2D(d) 
 {
-var x, y, k, centered;
   if (d && centered !== d) {
     var centroid = path.centroid(d);
     x = centroid[0];
     y = centroid[1];
     k = 4;
     centered = d;
+    console.log("NOW1");
   } else {
+    console.log("NOW2");
     x = mapWidth / 2;
     y = mapHeight / 2;
     k = 1;
     centered = null;
   }
-    g.selectAll(".focused").classed("focused", false);
+    g.selectAll(".focused").classed("focused", true);
     g.selectAll("path")
       .classed("active", centered && function(d) { return d === centered; });
   g.transition()
-      .duration(750)
+      .duration(800)
       .attr("transform", "translate(" + mapWidth / 2 + "," + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 

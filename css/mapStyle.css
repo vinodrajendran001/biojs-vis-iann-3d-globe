@@ -13,6 +13,11 @@ svg {
   cursor: pointer;
 }
 
+.marker-blue {
+    background-image: url("/experiment/world-connections/assets/img/marker-blue.png");
+}
+
+
 .zoneTooltip {
   position: absolute;
   display: none;
