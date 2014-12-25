@@ -104,18 +104,24 @@ function ready(error, world, countryData) {
       g.selectAll(".focused").classed("focused", focused = false);
     }))
 
+
   //Events processing
 
   world.on("mouseover", function(d) {
-    if (ortho === true) {
-      infoLabel.text(countryById[d.id])
-      .style("display", "inline");
-    } else {
-      zoneTooltip.text(countryById[d.id])
+   // if (ortho === true) {
+   //   infoLabel.text(countryById[d.id])
+     // .style("display", "inline");
+   // } else {
+     
+      zoneTooltip.text(countryById[d.id] + '<br/>' + "Total No. of Events" + "\n" + "event name")
+      .style({opacity:'1.0'})
       .style("left", (d3.event.pageX + 7) + "px")
       .style("top", (d3.event.pageY - 15) + "px")
       .style("display", "block");
-    }
+      
+   
+      
+   // }
   })
   .on("mouseout", function(d) {
     if (ortho === true) {
