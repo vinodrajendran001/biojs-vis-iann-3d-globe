@@ -60,12 +60,12 @@ svg {
 }
 
 .mapData {
-  fill: #E6E6E6;
+  fill: none;
   stroke: #ffffff;
   stroke-width: 1px;
 }
 
-.ortho1 {
+.ortho {
   fill: #E6E6E6;
   stroke: #E6E6E6;
   stroke-width: 1px;  
@@ -77,4 +77,12 @@ svg {
 
 .focused {
   fill: #FF7519;
+}
+.tissot {
+  fill: orange;
+  fill-opacity: .4;
+  stroke: brown;
+}
+.land {
+  fill: #222;
 }
