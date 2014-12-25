@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Example with styles and filters</title>
+		<!-- CSS -->
+			<!-- itico -->
+				<link rel="stylesheet" type="text/css" href="http://iann.pro/viewer/css/itico.css" media="screen" 
+/>
+				<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/css/fullcalendar.css' /> <!-- 
+for the calendar -->
+				<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/css/pagination.css' /> <!-- fo
+r the calendar -->
+				<link rel="stylesheet" href="http://iann.pro/viewer/ext/jquery.autocomplete.css" type="text/css" />
+			<!-- jquery -->
+				<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquer
+y-ui.css" type="text/css" media="all" />
+			
+		<!-- CONFIGURATION -->
+			<!-- style -->	
+				<style type="text/css">
+					h1.iann_title {display:none;} /* Do not display iAnn title */	
+					div#iann_wrap {width: 1000px; margin: 0px}  /* Set list width */	
+					div#iann_map {width: 1000px;}  /* Set map width */
+					div#iann_calendar {width: 1000px;}  /* Set calendar width */
+				</style>		    
+			<!-- filters -->	
+				<script type="text/javascript">
+					//var iann_prefilter = 'country:"Switzerland"';
+				</script>
+				
+		<!-- JAVASCRIPT -->		
+			<!-- jquery-->
+				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.j
+s"></script>
+				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.
+min.js"></script> <!-- Used by the calendar-->
+				<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> <!-
+- Used by the calendar-->
+			<!-- itico-->			
+				<script type="text/javascript" >loading='events';</script>
+				<script type="text/javascript" src="http://iann.pro/viewer/js/iticoJSLoader.js"></script>
+	</head>
+	
+	<body>
+		<div id="iann_wrap">
+			<div class="iann_top">
+				<div id="result_tabs"></div>
+				<br/>
+				<h1 class="iann_title"><span class="iann_orange">i</span><span class="iann_brown">ann</span></h1>
+				<div id="iann_search" class="iann_cell"></div>				
+				<div id="iann_advance_fields" style="display:none;"></div>
+				<div class="clear"></div>
+			</div>
+			<div id="iann_results" class="iann_bottom"></div>
+		</div>  
+	</body>
+</html>

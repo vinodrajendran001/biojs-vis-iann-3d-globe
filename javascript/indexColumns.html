@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Itico Client</title>
+		<!--Itico general includes.-->
+		<link rel="stylesheet" type="text/css" href="css/itico.css" media="screen" />
+		<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' /> <!-- for the calendar -->
+
+
+		<!-- JQuery.-->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script> <!-- Used by the calendar-->
+		<!-- To apply Jquery plugins to dinamicly inserted elements -->
+		<script type="text/javascript" src="lib/jquery.livequery.js"></script>
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+		<!-- AjaxSolr library-->
+		<script type="text/javascript" src="lib/core/Core.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractManager.js"></script>
+		<script type="text/javascript" src="lib/core/Parameter.js"></script>
+		<script type="text/javascript" src="lib/core/ParameterStore.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractWidget.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractFacetWidget.js"></script>
+		<script type="text/javascript" src="lib/managers/Manager.jquery.js"></script>
+		<script type="text/javascript" src="lib/helpers/jquery/ajaxsolr.theme.js"></script>
+
+		<!-- Widget to display the list of results-->
+		<script type="text/javascript" src="ext/jquery.pagination.js"></script>
+		<link rel='stylesheet' type='text/css' href='css/pagination.css' /> <!-- for the calendar -->
+		<script type="text/javascript" src="widgets/ResultWidget.js"></script>
+
+		<!-- Widget to have pagination of the results from AjaxSolr-->
+		<script type="text/javascript" src="lib/widgets/jquery/PagerWidget.js"></script>
+
+		<!-- Widget for the tag cloud -->
+		<script type="text/javascript" src="widgets/TagcloudWidget.js"></script>
+
+		<!-- Widget to display the current search -->
+		<script type="text/javascript" src="widgets/CurrentSearchWidget.js"></script>
+
+		<!-- Widget to do the manual search by the text field-->
+		<script type="text/javascript" src="widgets/TextWidget.js"></script>
+
+		<!-- Required for the auto-complete widget-->
+		<!-- Not in use now! -->
+		<link rel="stylesheet" type="text/css" href="ext/jquery.autocomplete.css" media="screen" />
+		<script type="text/javascript" src="ext/jquery.autocomplete.js"></script>
+		<script type="text/javascript" src="widgets/AutocompleteWidget.js"></script>
+
+
+		<!-- Widget to select the category-->
+		<script type="text/javascript" src="widgets/CategorySelectorWidget.js"></script>
+		<!-- Widget for the event subcategory -->
+		<script type="text/javascript" src="widgets/EventsTypeSelectorWidget.js"></script>
+
+		<!-- Widget to display the events in the map. -->
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="lib/oms.js"></script>
+		<script type="text/javascript" src="widgets/GoogleMapsWidget.js"></script>
+
+		<!-- Widget to display the current selection in a calendar -->
+		<script type='text/javascript' src='lib/fullcalendar.min.js'></script>
+		<script type="text/javascript" src="widgets/CalendarWidget.js"></script>
+		
+		<!-- Widget to filter by date-->
+		<script type="text/javascript" src="widgets/DateFilterWidget.js"></script>
+
+		<!-- Which Widgets to include in the page and to start the first call-->
+		<script type="text/javascript" src="js/itico.js"></script>
+		<!-- The js theme for the results-->
+		<script type="text/javascript" src="js/itico.theme.js"></script>
+
+
+	</head>
+	<body>
+		<div id="iann_wrap2">
+
+			<div class="right">
+				<div id="result">
+					<div id="iann_navigation">
+						<ul id="iann_pager"></ul>
+						<div id="iann_pager-header"></div>
+					</div><br/><br/>
+					<div id="iann_docs"></div>
+				</div>
+			</div>
+
+			<div class="left">
+				<div id="main_category"></div>
+				<div class="iann_panel_title">Current Selection</div>
+				<ul id="iann_selection"></ul>
+				<div class="iann_panel_title">Search</div>
+				<span id="search_help">(press ESC to close suggestions)</span>
+				<ul id="iann_search">
+					<input class="iann_field iann_field_search" type="text" id="iann_query" name="iann_query"/>
+				</ul>
+				<div class="iann_panel_title">Date Filter:</div>
+				<div class="iann_panel_content" id="datefilter"></div>
+
+				<div class="iann_panel_title">Top Categories</div>
+				<div class="iann_panel_content" id="provider"></div>
+                <br/>
+				<div class="iann_panel_title">Top Keyword</div>
+				<div class="iann_panel_content" id="keyword"></div>
+
+                <br/>
+                <div class="iann_panel_title">Field</div>
+                <div class="iann_panel_content" id="field"></div>
+
+                <br/>
+				<div class="iann_panel_title">By Country</div>
+
+				<div id="countries"></div>
+				<div id="preview"></div>
+                <br/>
+				<div class="iann_panel_title">By Date</div>
+				<div id="calendar"></div>
+
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+
+		</div>  
+	</body>
+</html>
+
