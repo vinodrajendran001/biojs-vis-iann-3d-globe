@@ -2,9 +2,52 @@
   position: relative;
 }
 
+#iann_globe{
+}
+
+
+
+
+
+.geo-globe {
+        fill: rgba(0,0,0,0.1);
+      }
+
+      .geo-path {
+        fill: #132A50; 
+        stroke: #FFFFFF;
+        stroke-width: 0.2;
+      }
+
+        .geo-path:hover {
+          fill: #3B5998;
+        }
+
+      .geo-node {
+        stroke-width: 0.0;
+        stroke: rgba(255, 0, 10, 0.66); 
+        fill: rgba(255, 0, 10, 0.66); 
+          
+          cursor: pointer;                
+      }
+
+        .geo-node:hover {
+          stroke: #a00;
+          fill: #a00;
+        }
+
+
+
+
+
+
+
 svg {
-  background: #a5adb0;
   pointer-events: all;
+ /* background: #a5adb0;*/
+  margin: left;
+  display: block;
+
 }
 
 .zone {
@@ -21,6 +64,9 @@ nav ul{height:300px; width:18%;}
 nav ul{overflow:hidden; overflow-y:scroll;}
 
 .zoneTooltip {
+  margin-right: auto;
+  display: none;
+
 /*  position: absolute;
   display: none;
   pointer-events: none;
@@ -67,7 +113,7 @@ nav ul{overflow:hidden; overflow-y:scroll;}
   margin: 0px 5px;
 }
 
-.mapData {
+/*.mapData {
   fill: #E6E6E6;
   stroke: #ffffff;
   stroke-width: 1px;
@@ -81,7 +127,7 @@ nav ul{overflow:hidden; overflow-y:scroll;}
 
 .mapData:hover {
   fill: #66C2FF;
-}
+}*/
 
 .focused {
   fill: #FF7519;
