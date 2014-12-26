@@ -77,7 +77,24 @@ function draw(words) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
         .text(function(d) { return d.text; })
-        .on("click", function(d,i) { alert("Hello world"); })
+        .on("click", function(d,i) { 
+          var fq = self.manager.store.values('fq');
+          self.manager.store.addByValue('fq', d.text);
+          self.manager.doRequest(0);
+          return true;
+
+         })
+          .on("mouseover", function(d,i) { 
+          d3.select(this)
+          .style("font-size", function(d) { return d.size + 10 + "px"; })
+
+         })
+          .on("mouseout", function(d,i) { 
+          d3.select(this)
+          .style("font-size", function(d) { return d.size + "px"; })
+
+         })
+
         ;
   }
 
