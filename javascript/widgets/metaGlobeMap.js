@@ -65,6 +65,9 @@ var path = d3.geo.path()
 
 var countryList = d3.select(this.target).append("select").attr("name", "countries");
 
+var shapeData = ["Ortho", "equirectangular"], 
+    j = 0;  // Choose the star as default
+
 
 var svgMap = d3.select(this.target).append("svg")
 .attr("overflow", "hidden")
@@ -445,6 +448,35 @@ var world = g.selectAll('path')
 
 
 ///
+
+labelEnter.append("input")
+    .attr({
+        type: "radio",
+        class: "shape",
+        name: "mode",
+        value: function(d, i) {return i;}
+    })
+    .property("checked", function(d, i) { 
+        console.log("value of i:" + i);
+        return (i===j); 
+    })
+    .on("click", function(d,i) { 
+          if(i === 1){
+            g.selectAll(".ortho").classed("ortho", ortho = false);
+        projection = projectionMap;
+        path.projection(projection);
+        g.selectAll("path").transition().duration(5000).attr("d", path);
+      
+        }
+        else{
+          return reset();
+        }
+
+         })
+
+    ;
+
+labelEnter.append("label").text(function(d) {return d;});
 
 var x, y, k, centered;
 
