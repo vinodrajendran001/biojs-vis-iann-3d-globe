@@ -33,38 +33,22 @@
       for (var i = 1, l = objectedItems.length; i < l; i++) {
         var facet = objectedItems[i].facet;
         
-        
-      
-
-        console.log("count="+objectedItems[i].count);
-
         jWord.push(facet);
 
         /*Assigning the range */
 
         jCount.push(objectedItems[i].count);
-        
-
-      
-                //$(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
-          
+                
       }
 
-
-      console.log("AFTER objects legnth="+objectedItems.length);
-
-      console.log("AFTER words lenght="+jWord.length);
-
-      console.log("AFTER words="+jWord.toString());
       
 
 
-           var fill = d3.scale.category20();
+    var fill = d3.scale.category20();
 
       d3.layout.cloud().size([250, 250])
       
   .words(d3.zip(jWord, jCount).map(function(d) {
-         // console.log("here="+d);
           return {text: d[0], size: 10 + d[1]};
         }))
   

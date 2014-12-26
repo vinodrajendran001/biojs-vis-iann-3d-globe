@@ -43,16 +43,21 @@ var projection = projectionGlobe;
 
 var path = d3.geo.path()
 .projection(projection);
-//d3.select(this.target)
+
+
+var countryList = d3.select(this.target).append("select").attr("name", "countries");
+
+
 var svgMap = d3.select(this.target).append("svg")
 .attr("overflow", "hidden")
 .attr("width", mapWidth)
 .attr("height", mapHeight);
 
+
+
 var zoneTooltip = d3.select(this.target).append("div").attr("class", "zoneTooltip"),
 infoLabel = d3.select(this.target).append("div").attr("class", "infoLabel");
 
-var countryList = d3.select("body").append("select").attr("name", "countries");
 
 var g = svgMap.append("g");
 
@@ -124,9 +129,10 @@ function ready(error, world, countryData) {
 
 
   //Events processing
+  var toplist = zoneTooltip.append("ul").attr("class","zoneTooltipList");
 
   world.on("mouseover", function(d) {
-   // if (ortho === true) {
+    if (zoom2D === false) {
      
    // } else {
      /*
@@ -136,42 +142,13 @@ function ready(error, world, countryData) {
       .style("display", "block");
      
     */
-      var toplist = zoneTooltip.append("ul");
-     for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
-        var doc = self.manager.response.response.docs[i];
-       
-        console.log("self value :" + doc);
+    infoLabel.text(countryById[d.id])
+          .style("left", (d3.event.pageX) + "px")
+      .style("top", (d3.event.pageY) + "px")
 
-        if(countryById[d.id] === doc.country){
-          console.log("inside if"+doc.country);
-             
-          //  g.selectAll(".focused").classed("focused", false);
-           // d3.select(this).classed("focused", focused = d);
-            infoLabel.text(doc.country)
-            .style("display", "inline");
-        var here = "<a href="+doc.link+" class=iann_item_title>"+doc.title+"</a><br><span class=iann_item_date>"+doc.start+"-"+doc.end+"</span><br><span class=iann_item_place>"+doc.provider+","+doc.city+","+doc.country+"</span><br><span class=iann_item_author>"+doc.host+"</span>";
-       // zoneTooltip.append(here)
+    .style("display", "inline");
 
-       
-toplist.append("li")
-  .html(here);
-       
-
-
- 
-        }
-        
-
-         }
-      zoneTooltip
-          .style("left", (d3.event.pageX + 7) + "px")
-      .style("top", (d3.event.pageY - 15) + "px")
-      .style("display", "block");
-     
-     
-      
-       
-       
+  } 
    
       
    // }
@@ -180,16 +157,35 @@ toplist.append("li")
    // if (ortho === true) {
       infoLabel.style("display", "none");
    // } else {
-      zoneTooltip.style("display", "none");
+      //zoneTooltip.style("display", "none");
 //}
   })
   .on("mousemove", function() {
    // if (ortho === false) {
-      zoneTooltip.style("left", (d3.event.pageX + 7) + "px")
-      .style("top", (d3.event.pageY - 15) + "px");
+     // zoneTooltip.style("left", (d3.event.pageX + 7) + "px")
+     // .style("top", (d3.event.pageY - 15) + "px");
    // }
   })
   .on("dblclick", function(d) {
+
+    var clickable = false;
+    for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
+        var doc = self.manager.response.response.docs[i];
+       
+        if(countryById[d.id]===doc.country){
+
+            clickable = true;
+            break;
+
+        }
+  
+
+    }
+
+    if(!clickable){
+      return;
+    }
+
     if (focused === d && zoom2D === true ) {
       zoom2D = false;
       zoomin2D(d);
@@ -205,6 +201,14 @@ toplist.append("li")
    // d3.select(this).classed("focused", foc === true used = d);
    // infoLabel.text(countryById[d.id])
    // .style("display", "inline");
+
+
+   zoneTooltip.on("click", function() {
+      zoneTooltip.style("display", "none");
+    });
+
+   tooltipCreate(d);
+
 
   g.selectAll(".focused").classed("focused", false);
     d3.select(this).classed("focused", focused = d);
@@ -256,9 +260,7 @@ function zoomin2D(d)
     y = centroid[1];
     k = 4;
     centered = d;
-    console.log("NOW1");
   } else {
-    console.log("NOW2");
     x = mapWidth / 2;
     y = mapHeight / 2;
     k = 1;
@@ -331,6 +333,46 @@ function zoomin2D(d)
     g.selectAll("path").classed("ortho", ortho = true);
 
   }
+
+  function tooltipCreate(d){
+    $(toplist).empty();
+
+     for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
+        var doc = self.manager.response.response.docs[i];
+       
+        //console.log("self value :" + doc);
+
+        if(countryById[d.id]=== doc.country){
+
+               
+            infoLabel.text(doc.country)
+                    .style("display", "inline");
+            
+            var here = "<a href="+doc.link+" class=iann_item_title>"+doc.title+"</a><br><span class=iann_item_date>"+doc.start+"-"+doc.end+"</span><br><span class=iann_item_place>"+doc.provider+","+doc.city+","+doc.country+"</span><br><span class=iann_item_author>"+doc.host+"</span>";
+
+           console.log("inside if"+doc.country);
+
+         toplist.append("li").html(here);
+            //toplist.append('<li> <a href='+doc.link+'class="iann_item_title">'+doc.title+'</a><br><span class="iann_item_date">'+doc.start+"-"+doc.end+'</span><br><span class="iann_item_place">'+doc.provider+","+doc.city+","+doc.country+'</span><br><span class="iann_item_author">'+doc.host+'</span></li>');
+                 // .text(here);
+
+           // break;
+       
+        }
+        
+
+    }
+
+    zoneTooltip
+      .style("left", (d3.event.pageX + 7) + "px")
+      .style("top", (d3.event.pageY - 15) + "px")
+      .style("display", "block");
+     
+     
+       
+  }
+
+
 };
 }
 });

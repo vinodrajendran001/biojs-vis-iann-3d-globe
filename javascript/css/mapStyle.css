@@ -17,9 +17,11 @@ svg {
     background-image: url("/experiment/world-connections/assets/img/marker-blue.png");
 }
 
+nav ul{height:300px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
 
 .zoneTooltip {
-  position: absolute;
+/*  position: absolute;
   display: none;
   pointer-events: none;
   background: #fff;
@@ -31,13 +33,20 @@ svg {
   font-family: sans-serif;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;  
+  border-radius: 5px;
+ overflow-y:scroll;
+  height:300px;*/
+}
+
+.zoneTooltipList{
+  overflow:hidden;
+  overflow-y:scroll;
+  height:300px;
 }
 
 .infoLabel {   
   position: absolute;
-  bottom: 15px;
-  left: 10px;
+  text-align: left;
   display: none;
   border: solid #ccc 1px;
   color: #666;
@@ -48,7 +57,6 @@ svg {
   -webkit-box-shadow: 0px 0px 3px #66C2FF;
   -moz-box-shadow: 0px 0px 3px #66C2FF;
   box-shadow: 0px 0px 3px #66C2FF;
-  text-align: left;            
   padding: 2px;      
   font-size: 12px;
   font-family: sans-serif; 
