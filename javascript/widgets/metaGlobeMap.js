@@ -67,7 +67,12 @@ var countryList = d3.select(this.target).append("select").attr("name", "countrie
 
 var shapeData = ["Ortho", "equirectangular"], 
     j = 0;  // Choose the star as default
+// Create the shape selectors
+var form = d3.select(this.target).append("form");
 
+var labelEnter = form.selectAll("span")
+    .data(shapeData)
+    .enter().append("span");
 
 var svgMap = d3.select(this.target).append("svg")
 .attr("overflow", "hidden")
