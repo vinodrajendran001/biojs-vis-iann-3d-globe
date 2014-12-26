@@ -136,23 +136,42 @@ function ready(error, world, countryData) {
       .style("display", "block");
      
     */
-     
+      var toplist = zoneTooltip.append("ul");
      for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
         var doc = self.manager.response.response.docs[i];
-        console.log("testing the mouseover :" + doc.country);
-        console.log("self value :" + countryById[d.id]);
+       
+        console.log("self value :" + doc);
+
         if(countryById[d.id] === doc.country){
-          console.log("")
-        zoneTooltip.text(doc.keyword)
-      .style("left", (d3.event.pageX + 7) + "px")
+          console.log("inside if"+doc.country);
+             
+          //  g.selectAll(".focused").classed("focused", false);
+           // d3.select(this).classed("focused", focused = d);
+            infoLabel.text(doc.country)
+            .style("display", "inline");
+        var here = "<a href="+doc.link+" class=iann_item_title>"+doc.title+"</a><br><span class=iann_item_date>"+doc.start+"-"+doc.end+"</span><br><span class=iann_item_place>"+doc.provider+","+doc.city+","+doc.country+"</span><br><span class=iann_item_author>"+doc.host+"</span>";
+       // zoneTooltip.append(here)
+
+       
+toplist.append("li")
+  .html(here);
+       
+
+
+ 
+        }
+        
+
+         }
+      zoneTooltip
+          .style("left", (d3.event.pageX + 7) + "px")
       .style("top", (d3.event.pageY - 15) + "px")
       .style("display", "block");
-
-       infoLabel.text(doc.keyword)
-      .style("display", "inline");
+     
+     
       
-       }
-        } 
+       
+       
    
       
    // }
