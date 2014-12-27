@@ -466,12 +466,11 @@ labelEnter.append("input")
         return (i===j); 
     })
     .on("click", function(d,i) { 
-          if(i === 1){
-            g.selectAll(".ortho").classed("ortho", ortho = false);
-        projection = projectionMap;
-        path.projection(projection);
-        g.selectAll("path").transition().duration(5000).attr("d", path);
-      
+        
+        if(i === 1){
+       
+            openGlobe(d);
+
         }
         else{
           return reset();
