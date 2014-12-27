@@ -185,6 +185,8 @@ d3.json('data/world-countries.json', function(world) {
 
     plotMarkers();
 
+    collectionCountries = collectionCountries.sort();
+
 
     countrySelectedList(collectionCountries);
 
