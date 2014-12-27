@@ -358,8 +358,6 @@ var world = g.selectAll('path')
         plotMarkers();
         g.selectAll(".focused").classed("focused", false);
 
-        //circles.transition().duration(5000).attr("d", path)
-
       }
 
       return;
@@ -508,6 +506,9 @@ function zoomin2D(d)
   var selectionCountries = d3.select("select");//.data(collectionCountries);
 
   selectionCountries.on("change", function(d) {
+        
+      if(equirectangular) return;
+
       var rotate = projection.rotate(),
       focusedCountry = country(countries, this),
       p = d3.geo.centroid(focusedCountry);
@@ -532,6 +533,9 @@ function zoomin2D(d)
       })
       })();
 
+      //openGlobe();
+      //zoomGlobe(focusedCountry, true);
+      //tooltipCreate(focusedCountry);
       
     });
 
@@ -589,7 +593,7 @@ function zoomin2D(d)
         var doc = self.manager.response.response.docs[i];
        
         //console.log("self value :" + doc);
-        if(d.properties.name.indexOf(doc.country) > -1){
+        if( d.properties.name.indexOf(doc.country) > -1){
         //if(d.properties.name=== doc.country){
 
             country = doc.country;
