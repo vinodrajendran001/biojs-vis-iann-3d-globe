@@ -152,50 +152,61 @@ d3.json('data/world-countries.json', function(world) {
 
 });
 
-  var collectionCountriesData = [];
+  var collectionCountriesData;
   var collectionCountries = [];
 
+  function setCollectionCountriesData(country){
+      collectionCountriesData = [];
 
-  for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
-        var doc = self.manager.response.response.docs[i];
+      for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
+                var doc = self.manager.response.response.docs[i];
 
-        var obj = new Object();
+                var obj = new Object();
 
-        obj.type = 'Feature';
-        
+                obj.type = 'Feature';
+                
 
-        var inside = new Object();
+                var inside = new Object();
 
-        inside.type = 'Point';
+                inside.type = 'Point';
 
-        var onemore = new Object();
+                var onemore = new Object();
 
-        inside.coordinates = [];
-        //lon lat
+                inside.coordinates = [];
+                //lon lat
 
-        inside.coordinates.push(doc.longitude);
-        inside.coordinates.push(doc.latitude);
-      
-        obj.geometry = inside;  
-
-
-        obj.properties = new Object();
-        obj.properties.name = doc.city+", "+ doc.country;
-
-        collectionCountries.push(doc.country);
+                inside.coordinates.push(doc.longitude);
+                inside.coordinates.push(doc.latitude);
+              
+                obj.geometry = inside;  
 
 
-        collectionCountriesData.push(obj);          
+                obj.properties = new Object();
+                obj.properties.name = doc.city+", "+ doc.country;
 
-    }     
+                collectionCountries.push(doc.country);
+
+                if(typeof(country) === 'undefined' || (typeof(country) !== 'undefined' && country.properties.name.indexOf(doc.country) > -1) ){
+
+                    collectionCountriesData.push(obj); 
+
+                }
+
+                 
+
+        }   
+
+    }  
 
     plotMarkers();
 
     // Plot the positions on the map:
-    function plotMarkers(){   
-
-          $(locations).empty();
+    function plotMarkers(country){   
           
+          $(locations).empty();
+
+          setCollectionCountriesData(country);
+
           circles = locations.selectAll('path')
             .data(collectionCountriesData)
             .enter()
@@ -361,7 +372,7 @@ var world = g.selectAll('path')
     //Transforming Globe to Map
 
     if (ortho === true) {
-        defaultRotate();
+        //defaultRotate();
         openGlobe();
         zoomGlobe(d, true);
     }else{
@@ -444,6 +455,8 @@ var x, y, k, centered;
 
 function zoomin2D(d) 
 {
+
+  plotMarkers(d);
   if (d && centered !== d) {
     var centroid = path.centroid(d);
     x = centroid[0];
