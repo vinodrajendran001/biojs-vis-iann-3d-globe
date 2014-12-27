@@ -54,14 +54,14 @@ var path = d3.geo.path()
 
 
 
-      // Define the longitude and latitude scales, which allow us to map lon/lat coordinates to pixel values:
-      var lambda = d3.scale.linear()
-          .domain([0, mapWidth])
-          .range([-180, 180]);
+// Define the longitude and latitude scales, which allow us to map lon/lat coordinates to pixel values:
+var lambda = d3.scale.linear()
+    .domain([0, mapWidth])
+    .range([-180, 180]);
 
-      var phi = d3.scale.linear()
-          .domain([0, mapHeight])
-          .range([90, -90]);
+var phi = d3.scale.linear()
+    .domain([0, mapHeight])
+    .range([90, -90]);
 
 var countryList = d3.select(this.target).append("select").attr("name", "countries");
 
@@ -130,27 +130,10 @@ d3.json('data/world-countries.json', function(world) {
           
 //function ready(error, world, countryData) {
 
-  var countryById = {},
+  var countryById = {};
   countries = world.features;//topojson.feature(world, world.objects.countries).features;
 
-  //Adding countries by name
-
-  d3.tsv('data/world-110m-country-names.tsv', function(countryData) { 
-
-
-      countryData.forEach(function(d) {
-        //console.log("idhar="+JSON.stringify(d));
-        countryById[d.name] = d.name;
-      });
-
-      countryData.forEach(function(d) {
-          countryById[d.name] = d.name;
-          option = countryList.append("option");
-          option.text(d.name);
-          option.property("value", d.name);
-      });
-
-});
+ 
 
   var collectionCountriesData;
   var collectionCountries = [];
@@ -184,7 +167,9 @@ d3.json('data/world-countries.json', function(world) {
                 obj.properties = new Object();
                 obj.properties.name = doc.city+", "+ doc.country;
 
-                collectionCountries.push(doc.country);
+                if(collectionCountries.indexOf(doc.country) === -1){
+                    collectionCountries.push(doc.country);
+                }
 
                 if(typeof(country) === 'undefined' || (typeof(country) !== 'undefined' && country.properties.name.indexOf(doc.country) > -1) ){
 
@@ -199,6 +184,32 @@ d3.json('data/world-countries.json', function(world) {
     }  
 
     plotMarkers();
+
+
+    countrySelectedList(collectionCountries);
+
+     //Adding countries by name
+    function countrySelectedList(countryData) { 
+
+
+      // countryData.forEach(function(d) {
+      //   console.log("idhar DEKH="+JSON.stringify(d));
+      //   countryById[d] = d;
+      // });
+
+      // .data(collectionCountriesData)
+      //       .enter()
+
+      countryData.forEach(function(d) {
+          countryById[d] = d;
+          option = countryList.append("option");
+          option.text(d);
+          option.property("value", d);
+      });
+
+    }
+
+
 
     // Plot the positions on the map:
     function plotMarkers(country){   
@@ -492,12 +503,14 @@ function zoomin2D(d)
 }
   ///TEST
 
-  var selectionCountries = d3.select("select").data(countries);
+  var selectionCountries = d3.select("select");//.data(collectionCountries);
 
   selectionCountries.on("change", function(d) {
       var rotate = projection.rotate(),
       focusedCountry = country(countries, this),
       p = d3.geo.centroid(focusedCountry);
+
+      console.log("change=="+JSON.stringify(focusedCountry));
 
       svgMap.selectAll(".focused").classed("focused", focused = false);
 
@@ -517,25 +530,13 @@ function zoomin2D(d)
       })
       })();
 
-
-       // setTimeout(function() {
-       //    function heres() {
-
-       //      openGlobe(d);
-
-       //    };
-
-       //    heres();
-       //  }, 2600);
-
-
       
     });
 
 
     function country(cnt, sel) { 
       for(var i = 0, l = cnt.length; i < l; i++) {
-        if(cnt[i].properties.name == sel.value) {return cnt[i];}
+        if(cnt[i].properties.name.indexOf(sel.value) >-1) {return cnt[i];}
       }
     };
 
