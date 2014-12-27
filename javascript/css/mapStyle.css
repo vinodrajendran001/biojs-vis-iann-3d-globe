@@ -28,7 +28,7 @@
         stroke: rgba(255, 0, 10, 0.66); 
         fill: rgba(255, 0, 10, 0.66); 
           
-          cursor: pointer;                
+        cursor: pointer;                
       }
 
         .geo-node:hover {

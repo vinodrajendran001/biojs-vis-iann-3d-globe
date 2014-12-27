@@ -92,7 +92,7 @@ var zoneTooltip = d3.select(this.target).append("div").attr("class", "zoneToolti
 infoLabel = d3.select(this.target).append("div").attr("class", "infoLabel");
 
 
-//var world = svgMap.append("g");
+var equirectangular = false;
 
 var g = svgMap.append('g');
 
@@ -158,64 +158,45 @@ d3.json('data/world-countries.json', function(world) {
 
   for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
         var doc = self.manager.response.response.docs[i];
-       
-      // {  
-         // "type": "Feature",
-        // "geometry": {
-        //   "type": "Point",
-        //   "coordinates": [
-        //     "-0.1198244",
-        //     "51.5112139"
-        //   ]
-        // },
-        // "properties": {
-        //   "name": "London, UK"
-        // }
 
-      // }  
+        var obj = new Object();
 
-           // if(collectionCountries.indexOf(doc.country) === -1){
+        obj.type = 'Feature';
+        
 
-                var obj = new Object();
+        var inside = new Object();
 
-                obj.type = 'Feature';
-                
+        inside.type = 'Point';
 
-                var inside = new Object();
+        var onemore = new Object();
 
-                inside.type = 'Point';
+        inside.coordinates = [];
+        //lon lat
 
-                var onemore = new Object();
-
-                inside.coordinates = [];
-                //lon lat
-
-                inside.coordinates.push(doc.longitude);
-                inside.coordinates.push(doc.latitude);
-              
-                obj.geometry = inside;  
+        inside.coordinates.push(doc.longitude);
+        inside.coordinates.push(doc.latitude);
+      
+        obj.geometry = inside;  
 
 
-                obj.properties = new Object();
-                obj.properties.name = doc.city+", "+ doc.country;
+        obj.properties = new Object();
+        obj.properties.name = doc.city+", "+ doc.country;
 
-                collectionCountries.push(doc.country);
+        collectionCountries.push(doc.country);
 
 
-                collectionCountriesData.push(obj);
-
-         // }
-          
+        collectionCountriesData.push(obj);          
 
     }     
 
     plotMarkers();
-         //console.log("yaha kya haal="+JSON.stringify(collection.features)); 
-        // Plot the positions on the map:
+
+    // Plot the positions on the map:
     function plotMarkers(){   
 
           $(locations).empty();
-             circles = locations.selectAll('path')
+          
+          circles = locations.selectAll('path')
             .data(collectionCountriesData)
             .enter()
             .append('svg:path')
@@ -232,15 +213,6 @@ d3.json('data/world-countries.json', function(world) {
 
   //Drawing countries on the globe
 
-  // var world = g.selectAll("path").data(countries);
-  // world.enter().append("path")
-  // //.attr("class", "mapData")
-  // .attr('class', 'geo-path')
-
-  // .attr("d", path)
-  // .classed("ortho", ortho = true);
-
-
 var world = g.selectAll('path')
           .data(countries)
           .enter()
@@ -252,18 +224,18 @@ var world = g.selectAll('path')
 
 
 
- var zoom = d3.behavior.zoom(true)
+    var zoom = d3.behavior.zoom(true)
             .scale( projection.scale() )
             .scaleExtent([100, 800])
             .on("zoom", globeZoom);
 
-  // svgMap.call(zoom)
-  //         .on('dblclick.zoom', null);
-
+    // svgMap.call(zoom)
+    //       .on('click.zoom', null);
 
     function globeZoom() {
+      console.log("zooom call");
 
-      if(ortho === false){
+      if(equirectangular === true){
           if (d3.event) {
             var _scale = d3.event.scale;
 
@@ -271,19 +243,17 @@ var world = g.selectAll('path')
               backgroundCircle.attr('r', _scale);
               path.pointRadius( radius );
 
-              //features.attr('d', path);
-            svgMap.selectAll("path").attr("d", path);
-            //circles.attr('d', path); 
+              svgMap.selectAll("path").attr("d", path);
           }
-          }; // end IF
+      }; 
     };
-
-
- // g.attr("transform","translate(" + translatedGlobeX + "," + translatedGlobeY+ ")");
 
   svgMap.call(d3.behavior.drag()
     .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
     .on("drag", function() {
+
+      if(equirectangular) return;
+
       var lambda = d3.event.x * sens,
       phi = -d3.event.y * sens,
       rotate = projection.rotate();
@@ -305,23 +275,14 @@ var world = g.selectAll('path')
   var toplist = zoneTooltip.append("ul").attr("class","zoneTooltipList");
 
   world.on("mouseover", function(d) {
-    if (zoom2D === false) {
+    //if (zoom2D === false) {
      
-   // } else {
-     /*
-      zoneTooltip.text(countryById[d.id])
-      .style("left", (d3.event.pageX + 7) + "px")
-      .style("top", (d3.event.pageY - 15) + "px")
-      .style("display", "block");
-     
-    */
-    infoLabel.text(d.properties.name)
-          .style("left", (d3.event.pageX) + "px")
-      .style("top", (d3.event.pageY) + "px")
+          infoLabel.text(d.properties.name)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px")
+            .style("display", "inline");
 
-    .style("display", "inline");
-
-  } 
+    //} 
    
       
    // }
@@ -335,23 +296,17 @@ var world = g.selectAll('path')
   })
   .on("mousemove", function() {
    // if (ortho === false) {
-     // zoneTooltip.style("left", (d3.event.pageX + 7) + "px")
-     // .style("top", (d3.event.pageY - 15) + "px");
+      infoLabel.style("left", (d3.event.pageX + 7) + "px")
+               .style("top", (d3.event.pageY - 15) + "px");
    // }
   })
   .on("dblclick", function(d) {
-
-
-    console.log("dbclick, "+JSON.stringify(d));
 
     var clickable = false;
     for (var i = 0, l = self.manager.response.response.docs.length; i < l; i++) {
         var doc = self.manager.response.response.docs[i];
        
-
-        //console.log("yaha aaja"+doc.country+"and, "+countryById[d.id]);
         if(d.properties.name.indexOf(doc.country) > -1){
-        //if(d.properties.name===doc.country){
 
             clickable = true;
             break;
@@ -363,79 +318,78 @@ var world = g.selectAll('path')
 
 
     if(!clickable){
-                     console.log("yaha aaja1");
-
       return;
     }
 
     if (focused === d && zoom2D === true ) {
       zoom2D = false;
       zoomin2D(d);
-      circles.style("display", "block");
 
-      return reset();
+      circles.transition().duration(2000).style("display", "block");
 
+      console.log("idhar aa gayas"+labelEnter.select("input").value+" AND "+equirectangular);
+
+
+      if(equirectangular === false){
+      //if(labelEnter.select("label").text() === "Ortho"){
+        console.log("andar aa gayas1");
+        reset();
+      }else{
+
+        plotMarkers();
+        //circles.transition().duration(5000).attr("d", path)
+
+      }
+
+      return;
     }
 
 
     if(zoom2D === true){
       return;
-    }
-
-    //g.selectAll(".focused").classed("focused", false);
-    //g.transition()
-     // .duration(750)
-     // .attr("transform", "translate(" + mapWidth / 2 + "," + mapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-      //.style("stroke-width", 1.5 / k + "px");
-
-   // d3.select(this).classed("focused", foc === true used = d);
-   // infoLabel.text(countryById[d.id])
-   // .style("display", "inline");
-
-
-    
+    }    
 
     infoLabel.text(d.properties.name)
-    .style("display", "inline");
+            .style("display", "inline");
 
 
-          g.selectAll(".focused").classed("focused", false);
-        d3.select(this).classed("focused", focused = d);
-
- // g.selectAll(".focused")
-   //   .classed("active", centered && function(d) { return d === centered; });
+    g.selectAll(".focused").classed("focused", false);
+    
+    d3.select(this).classed("focused", focused = d);
 
 
     //Transforming Globe to Map
 
     if (ortho === true) {
-       // defaultRotate();
-      //setTimeout(function() {
-        openGlobe(d);
+        defaultRotate();
+        openGlobe();
+        zoomGlobe(d, true);
+    }else{
+        zoomGlobe(d, false);
     }
 
    
   });
 
 
-  function openGlobe(d){
+  function openGlobe(){
 
-
-        backgroundCircle.style("display", "none");
+        backgroundCircle.transition().duration(5000).style("display", "none");
 
         g.selectAll(".ortho").classed("ortho", ortho = false);
         projection = projectionMap;
         path.projection(projection);
         g.selectAll("path").transition().duration(5000).attr("d", path);
 
-          //circles.attr('d', path);
         circles.transition().duration(5000).attr("d", path);
 
+  }
 
-      //}
-      //, 1600);
-
+  function zoomGlobe(d, ortho){
         zoom2D = true;
+        
+        var time = ortho?5000:0;
+
         setTimeout(function() {
           function heres() {
 
@@ -444,11 +398,11 @@ var world = g.selectAll('path')
           };
 
           heres();
-        }, 5000);
+        }, time);
+
+        tooltipCreate(d);
+
        
-    
-      tooltipCreate(d);
-     
   }
 
 
@@ -461,15 +415,19 @@ labelEnter.append("input")
         name: "mode",
         value: function(d, i) {return i;}
     })
-    .property("checked", function(d, i) { 
-        console.log("value of i:" + i);
+    .property("checked", function(d, i) {
+        //equirectangular = (i === 0)?true : false;
+        //console.log("selection kya hai="+equirectangular);
         return (i===j); 
     })
     .on("click", function(d,i) { 
         
+        equirectangular = (i === 0) ? false : true;
+        console.log("click pe value="+equirectangular);
+
         if(i === 1){
        
-            openGlobe(d);
+            openGlobe();
 
         }
         else{
@@ -531,12 +489,9 @@ function zoomin2D(d)
       focusedCountry = country(countries, this),
       p = d3.geo.centroid(focusedCountry);
 
-      //console.log("select mie+"+JSON.stringify(countries)+", d="+JSON.stringify(d));
-
       svgMap.selectAll(".focused").classed("focused", focused = false);
 
     //Globe rotating
-
     (function transition() {
       d3.transition()
       .duration(2500)
@@ -603,10 +558,10 @@ function zoomin2D(d)
     g.selectAll("path").transition().duration(5000).attr("d", path)
     g.selectAll("path").classed("ortho", ortho = true);
 
-    locations.selectAll("path").transition().duration(5000).attr("d", path)
+    circles.transition().duration(5000).attr("d", path)
 
 
-    backgroundCircle.style("display", "block");
+    backgroundCircle.transition().duration(5000).style("display", "block");
 
 
   }
