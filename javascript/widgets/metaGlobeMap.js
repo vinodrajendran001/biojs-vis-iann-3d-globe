@@ -338,16 +338,13 @@ var world = g.selectAll('path')
 
       circles.transition().duration(2000).style("display", "block");
 
-      console.log("idhar aa gayas"+labelEnter.select("input").value+" AND "+equirectangular);
-
-
       if(equirectangular === false){
-      //if(labelEnter.select("label").text() === "Ortho"){
-        console.log("andar aa gayas1");
         reset();
       }else{
 
         plotMarkers();
+        g.selectAll(".focused").classed("focused", false);
+
         //circles.transition().duration(5000).attr("d", path)
 
       }
