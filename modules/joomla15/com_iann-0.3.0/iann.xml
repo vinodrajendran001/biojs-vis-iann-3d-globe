@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
+	<name>iAnn</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>December 2011</creationDate>
+	<author>admin@iann.pro</author>
+	<authorEmail>admin@iann.pro</authorEmail>
+	<authorUrl>http://www.iann.pro</authorUrl>
+	<copyright>(C) 20011 All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<!--  The version string is recorded in the components table -->
+	<version>1.5.0</version>
+	<!-- The description is optional and defaults to the name -->
+	  <description>
+    <![CDATA[Componenet to visualize announcements from iAnn.
+  
+  </p>]]></description> 
+
+	<files>
+		<!-- <filename>index.html</filename> -->
+		<filename>iann.php</filename>
+	</files>
+
+	<administration>
+	</administration>
+
+</install>

@@ -1,0 +1,322 @@
+/* body */
+body {
+  color: #333;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  margin: auto;
+  position: relative;
+  width: 960px;
+  height: 500px;
+}
+
+a {
+  color: #086782;
+  text-decoration: none;
+}
+a:hover {
+  color: #933d00;
+  text-decoration: none;
+}
+
+/* IANN */
+img.iann_img {
+  border: none;
+}
+
+/* title */
+.iann_title {
+  padding: 0;
+  margin: 0;
+  font-size:400%;
+} 
+.iann_orange{
+color: #cb8030;
+}
+.iann_brown{
+color: #933d00;
+}
+
+/* form fields */
+input.iann_field {
+    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-box-sizing: border-box;
+    background-color: #FAFAFA;
+    border: 1px solid #CCCCCC;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 6px;
+}
+
+.iann_date {
+  width:100px;
+}
+
+input.iann_field_search {
+    width:250px;
+}
+
+/* layout */
+.iann_cell td {
+  vertical-align:top;
+	}
+.iann_cell tbody {
+	border: none;
+}
+
+.iann_panel_title {
+    background: url("../images/section_bg.gif") repeat-y scroll 0 0 transparent;
+    font-weight:bold;
+      margin-top:10px;
+}	
+
+.iann_panel_content {
+	margin-left:10px;
+	margin-top:2px;
+	font-size: 90%;
+	}
+	
+
+.iann_top {
+  clear: left;
+}
+
+.iann_bottom {
+  padding: 20px 0 5px 0;
+}
+
+.clear {
+  clear: both;
+}
+
+#iann_wrap {
+  width: 700px;
+  margin: 0px auto;
+}
+
+#iann_map { 
+  height: 450px; 
+  width: 700px; 
+}
+
+#iann_partition { 
+  height: 450px; 
+  width: 700px; 
+}
+
+
+#iann_calendar {
+  width: 700px;
+}
+
+#iann_search{
+  padding: 0;
+  margin: 0;
+	}
+div.iann_item_h {
+  margin-top: 12px;
+  display:none;
+}
+div.iann_item {
+  margin-top: 12px;
+}
+
+a.iann_item_title {
+  font-size: 130%;
+}
+span.iann_item_subtitle {
+  font-size: 110%;
+}
+span.iann_item_author {
+  font-weight:bold;
+  font-size: 80%;
+}
+div.iann_item_details {
+  line-height:90%
+}
+span.iann_item_details_item {
+  font-size: 80%;
+  padding-left: 10px;
+}
+
+.iann_item_content{
+	text-align: justify;
+	}
+	
+.iann_category_no_selected {
+  text-decoration:none;
+}
+.iann_category_selected {
+  font-weight:bold;
+}
+.iann_tab_menu_no_selected {
+  text-decoration:none;
+}
+.iann_tab_menu_selected {
+  font-weight:bold;
+}
+
+
+
+
+
+
+
+/* results */
+
+#iann_navigation {
+  border-bottom: 1px solid #000;
+}
+
+#iann_pager,
+#iann_pager-header {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+#iann_pager li,
+.links li {
+  list-style-type: none;
+  display: inline;
+}
+#iann_selection {
+  padding: 0px 15px 0;
+  margin:0;
+  font-size: 80%;
+}
+#iann_selection li {
+  list-style-type: none;
+  background:none;
+}
+#iann_docs {
+  padding-top: 0px;
+  padding-left: 5px;
+}
+
+
+
+/* tagcloud */
+
+a.tagcloud_size_0 {
+font-size: 80%;
+}
+a.tagcloud_size_1 {
+font-size: 85%;
+}
+a.tagcloud_size_2 {
+font-size: 90%;
+}Rst
+a.tagcloud_size_3 {
+font-size: 95%;
+}
+a.tagcloud_size_4 {
+font-size: 100%;
+}
+a.tagcloud_size_5 {
+font-size: 105%;
+}
+a.tagcloud_size_6 {
+font-size: 110%;
+}
+a.tagcloud_size_7 {
+font-size: 115%
+}
+a.tagcloud_size_8 {
+font-size: 120%;
+}
+a.tagcloud_size_9 {
+font-size: 125%;
+}
+a.tagcloud_size_10 {
+font-size: 130%;
+}
+
+
+
+
+/* INDEX.HTML */
+#iann_wrap2 {
+  width: 1000px;
+  margin: 0px auto;
+}
+/* left */
+
+.left {
+  clear: left;
+  width: 300px;
+  padding: 0 0 10px 10px;
+}
+
+#search input {
+  width: 350px;
+}
+#calendar {
+  width: 300px;
+  margin: 0 auto;
+}
+
+#countries { 
+  height: 300px; 
+  width:300px; 
+}
+
+#search_help {
+  font-size: 80%;
+}
+.tagcloud {
+  padding: 0px 15px 0;
+}
+.tagcloud_item {
+  float: left;
+  display: block;
+  margin-right: 4px;
+}
+.tagcloud_item:hover {
+  color: #f00;
+}
+
+/* right */
+
+.right {
+  float: right;
+  width: 620px;
+  padding: 10px 20px 10px 20px;
+  border-left: 1px solid #aaa;
+  text-align: justify;
+}
+
+table.fc-border-separate {
+    margin: 0;
+}
+
+
+.iann_tableview_header {
+	padding-bottom: 15px;
+}
+
+.iann_tableview_footer {
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+
+#iann_table_content {
+	border-bottom: 1px solid #000000;
+	border-top: 1px solid #000000;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+#iann_table_content thead {
+	background-color: #EEEEEE;
+}
+/*TREEMAP NODE*/
+div.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}

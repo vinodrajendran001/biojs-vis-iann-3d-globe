@@ -1,0 +1,125 @@
+<?php
+/**
+* Display help and module information
+* @param path which path of the site we're displaying help
+* @param arg array that holds the current path as would be returned from arg() function
+* @return help text for the path
+*/
+function iann_help($path, $arg) {
+  $output = '';  //declare your output variable
+  switch ($path) {
+    case "admin/help#iann":
+      $output = '<p>'.  t("Displays iAnn events") .'</p>';
+      break;
+  }
+  return $output;
+} // function iann_help
+
+
+
+
+/**
+* Valid permissions for this module
+* @return array An array of valid permissions for the ian module
+*/
+function iann_perm() {
+  return array('access iann content');
+} // function iann_perm()
+
+
+
+
+/**
+* Implementation of hook_block().
+* @param string $op one of "list", "view", "save" and "configure"
+* @param integer $delta code to identify the block
+* @param array $edit only for "save" operation
+*/
+function iann_block($op='list', $delta=0) {
+$headers = "";
+$headers .= "<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/css/itico.css' media='screen' />";
+$headers .= "<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/css/fullcalendar.css' /> <!-- for the calendar -->";
+$headers .= "<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/css/pagination.css' /> <!-- for the calendar -->";
+$headers .= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>";
+$headers .= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js'></script> <!-- Used by the calendar-->";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/jquery.livequery.js'></script>";
+$headers .= "<link rel='stylesheet' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css' type='text/css' media='all' />";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/Core.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/AbstractManager.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/Parameter.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/ParameterStore.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/AbstractWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/core/AbstractFacetWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/managers/Manager.jquery.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/helpers/jquery/ajaxsolr.theme.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/ext/jquery.pagination.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/ResultWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/widgets/jquery/PagerWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/TagcloudWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/EventsTypeSelectorWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/CurrentSearchWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/TextWidget.js'></script>";
+$headers .= "<link rel='stylesheet' type='text/css' href='http://iann.pro/viewer/ext/jquery.autocomplete.css' media='screen' />";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/ext/jquery.autocomplete.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/AutocompleteWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/SimpleTabsWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/CategorySelectorWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/oms.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/GoogleMapsWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/rfc3339date.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/jquery.addtocal.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/lib/fullcalendar.min.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/CalendarWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/widgets/DateFilterWidget.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/js/iticoEvents.js'></script>";
+$headers .= "<script type='text/javascript' src='http://iann.pro/viewer/js/itico.theme.js'></script>";	
+
+$headers .= "			<style type='text/css'>";
+$headers .= "				h1.iann_title {display:none;}";
+$headers .= "				div#iann_wrap {width: 680px; margin: 0px}";
+$headers .= "				div#iann_map {width: 680px;}";
+$headers .= "				div#iann_calendar {width: 680px;}";
+$headers .= "			</style>";
+
+  drupal_set_html_head($headers);	
+	
+	
+  // set up the block 
+  $block = array();
+
+  if ($op == "list") {
+    // Generate listing of blocks from this module, for the admin/block page
+
+    $block[0]["info"] = t('iAnn');
+  }
+  else if ($op == 'view') {
+    // Fill in the subject of our block which is the same whether or not
+    // the block has any real content
+    $block['subject'] = 'block Subject';
+$content = "";
+$content .="<div id='iann_wrap'>";
+$content .="			<div class='iann_top'>";
+$content .="				<div id='result_tabs'></div>";
+$content .="				<br/>";
+$content .="				<h1 class='iann_title'><span class='iann_orange'>i</span><span class='iann_brown'>ann</span></h1>";
+$content .="				<div id='iann_search' class='iann_cell'></div>";
+$content .="				<div id='iann_advance_fields' style='display:none;'></div>";
+$content .="				<div class='clear'></div>";
+$content .="			</div>";
+$content .="			<div id='iann_results' class='iann_bottom'></div>";
+$content .="		</div>";  
+    // check to see if there was any content before returning
+    //  the block view
+    $block['content'] = $content;
+    
+  }
+
+  return $block;
+}  // end iann_block
+
+
+
+
+
+

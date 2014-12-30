@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Itico Client</title>
+		<!--Itico general includes.-->
+		<link rel="stylesheet" type="text/css" href="css/itico.css" media="screen" />
+		<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' /> <!-- for the calendar -->
+
+
+		<!-- JQuery.-->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script> <!-- Used by the calendar-->
+		<!-- To apply Jquery plugins to dinamicly inserted elements -->
+		<script type="text/javascript" src="lib/jquery.livequery.js"></script>
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+		<!-- AjaxSolr library-->
+		<script type="text/javascript" src="lib/core/Core.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractManager.js"></script>
+		<script type="text/javascript" src="lib/core/Parameter.js"></script>
+		<script type="text/javascript" src="lib/core/ParameterStore.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractWidget.js"></script>
+		<script type="text/javascript" src="lib/core/AbstractFacetWidget.js"></script>
+		<script type="text/javascript" src="lib/managers/Manager.jquery.js"></script>
+		<script type="text/javascript" src="lib/helpers/jquery/ajaxsolr.theme.js"></script>
+
+		<!-- Widget to display the list of results-->
+		<script type="text/javascript" src="ext/jquery.pagination.js"></script>
+		<link rel='stylesheet' type='text/css' href='css/pagination.css' /> <!-- for the calendar -->
+		<script type="text/javascript" src="widgets/ResultWidget.js"></script>
+
+		<!-- Widget to have pagination of the results from AjaxSolr-->
+		<script type="text/javascript" src="lib/widgets/jquery/PagerWidget.js"></script>
+
+		<!-- Widget for the tag cloud -->
+		<script type="text/javascript" src="widgets/TagcloudWidget.js"></script>
+
+		<!-- Widget for the event subcategory -->
+		<script type="text/javascript" src="widgets/EventsTypeSelectorWidget.js"></script>
+
+		<!-- Widget to display the current search -->
+		<script type="text/javascript" src="widgets/CurrentSearchWidget.js"></script>
+
+		<!-- Widget to do the manual search by the text field-->
+		<script type="text/javascript" src="widgets/TextWidget.js"></script>
+
+		<!-- Required for the auto-complete widget-->
+		<!-- Not in use now! -->
+		<link rel="stylesheet" type="text/css" href="ext/jquery.autocomplete.css" media="screen" />
+		<script type="text/javascript" src="ext/jquery.autocomplete.js"></script>
+		<script type="text/javascript" src="widgets/AutocompleteWidget.js"></script>
+
+
+		<!-- Widget to select the visualization method-->
+		<script type="text/javascript" src="widgets/SimpleTabsWidget.js"></script>
+
+		<!-- Widget to select the category-->
+		<script type="text/javascript" src="widgets/CategorySelectorWidget.js"></script>
+
+		<!-- Widget to display the events in the map. -->
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="lib/oms.js"></script>
+		<script type="text/javascript" src="widgets/GoogleMapsWidget.js"></script>
+
+		<!-- Widget to display the current selection in a calendar -->
+		<script type='text/javascript' src='lib/fullcalendar.min.js'></script>
+		<script type="text/javascript" src="widgets/CalendarWidget.js"></script>
+		
+		<!-- Widget to filter by date-->
+		<script type="text/javascript" src="widgets/DateFilterWidget.js"></script>
+
+		<!-- Which Widgets to include in the page and to start the first call-->
+		<script type="text/javascript" src="js/iticoClean.js"></script>
+		<!-- The js theme for the results-->
+		<script type="text/javascript" src="js/itico.theme.js"></script>
+
+
+	</head>
+	<body>
+		<div id="iann_wrap">
+
+
+			<div class="iann_top">
+				<div id="main_category"></div>
+				<div id="result_tabs"></div>
+				<br/>
+				<h1 class="iann_title"><span class="iann_orange">i</span><span class="iann_brown">ann</span></h1>
+				<table class="iann_cell">
+					<tr>
+						<td>
+							<ul id="iann_search">
+								<input class="iann_field iann_field_search" type="text" id="iann_query" name="iann_query"/>
+							</ul>
+							<a class="advance_switch" ><img style="vertical-align:text-bottom;" src="images/plus01.gif" /> filtering options...</a>
+						</td>
+						<td>
+							<ul id="iann_selection"></ul>
+						</td>
+					</tr>
+				</table>
+				<div id="iann_advance_fields" style="display:none;">
+				<table  class="iann_cell" width="100%">
+					<tr>
+						<td width="33%">
+							<div class="iann_panel_title">Date</div>
+							<div class="iann_panel_content" id="datefilter"></div>
+						</td>
+						<td width="33%">
+							<div class="iann_panel_title">Host</div>
+							<div class="tagcloud iann_panel_content" id="provider"></div>
+						</td>
+						<td width="33%">
+							<div class="iann_panel_content" id="events_category"></div>
+						</td>
+					</tr>
+					<tr>
+                        <td>
+							<div class="iann_panel_title">Field</div>
+							<div class="tagcloud iann_panel_content" id="field"></div>
+						</td>
+						<td>
+							<div class="iann_panel_title">Country</div>
+							<div class="tagcloud iann_panel_content" id="country"></div>
+						</td>
+						<td>
+							<div class="iann_panel_title">Keyword</div>
+							<div class="tagcloud iann_panel_content" id="keyword"></div>
+						</td>
+						<td>
+						</td>
+					</tr>
+				</table>
+
+
+
+				</div>
+
+				<div class="clear"></div>
+			</div>
+			<div class="iann_bottom">
+				<div id="result">
+					<div id="iann_navigation">
+						<ul id="iann_pager"></ul>
+						<div id="iann_pager-header"></div>
+					</div><br/><br/>
+					<div id="iann_docs"></div>
+				</div>
+
+				<div id="map_div">
+					<div class="iann_panel_title">Map</div>
+					<div id="iann_map"></div>
+				</div>
+				<div id="calendar_div">
+					<div class="iann_panel_title">Calendar</div>
+					<div id="iann_calendar"></div>
+				</div>
+			</div>
+
+		</div>  
+	</body>
+</html>
+

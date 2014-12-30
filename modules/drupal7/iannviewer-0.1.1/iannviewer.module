@@ -1,0 +1,92 @@
+<?php
+	function iannviewer_menu(){
+		$items = array();
+		$items['iannviewer'] = array(
+		    'title'            => t('Events'),
+		    'page callback'    => 'iannviewer_output',
+		    'access arguments' => array('access content'),
+		);
+	 
+		return $items;
+		}
+	 
+		/*
+		* Display output
+		*/
+		function iannviewer_output() {
+	
+		/* CSS */
+
+		drupal_add_css('http://iann.pro/viewer/css/itico.css', array('group' => CSS_THEME, 'type' => 'external'));
+		drupal_add_css('http://iann.pro/viewer/css/fullcalendar.css', array('group' => CSS_THEME, 'type' => 'external'));
+		drupal_add_css('http://iann.pro/viewer/css/pagination.css', array('group' => CSS_THEME, 'type' => 'external'));
+		drupal_add_css('http://iann.pro/viewer/ext/jquery.autocomplete.css', array('group' => CSS_THEME, 'type' => 'external'));
+		drupal_add_css('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css', array('group' => CSS_THEME, 'type' => 'external'));
+		
+		/* CONFIGURATION */
+    	drupal_add_css('h1.iann_title {display:none;}', array('group' => CSS_THEME, 'type' => 'inline')); // Do not display iAnn title
+    	drupal_add_css('div#iann_wrap {width: 600px; margin: 0px}', array('group' => CSS_THEME, 'type' => 'inline')); // Set list width
+    	drupal_add_css('div#iann_map {width: 600px;}', array('group' => CSS_THEME, 'type' => 'inline')); // Set map width
+    	drupal_add_css('div#iann_calendar {width: 600px;}', array('group' => CSS_THEME, 'type' => 'inline')); // Set calendar width		
+		$filter = (!isset($_GET['filter'])) ? '' : $_GET['filter'];
+		if(strlen($filter) > 0){
+			drupal_add_js('var iann_prefilter = \'' . $filter . '\';', 'inline'); // Default filter
+		}
+		//drupal_add_js('var calendar_color_option = { country:{ Switzerland:"#660000", Germany:"#0033FF", "United Kingdom":"#FF0000"}, provider:{ "EMBL-EBI":"#00FF00", NBIC:"#0000FF"}};', 'inline'); // Calendar colors
+	
+		/* JS */
+	    drupal_add_js('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', 'external');
+	    drupal_add_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/jquery.livequery.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/Core.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/AbstractManager.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/Parameter.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/ParameterStore.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/AbstractWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/core/AbstractFacetWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/managers/Manager.jquery.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/helpers/jquery/ajaxsolr.theme.js', 'external');    
+	    drupal_add_js('http://iann.pro/viewer/ext/jquery.pagination.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/ResultWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/widgets/jquery/PagerWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/TagcloudWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/EventsTypeSelectorWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/CurrentSearchWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/TextWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/ext/jquery.autocomplete.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/AutocompleteWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/SimpleTabsWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/CategorySelectorWidget.js', 'external');
+	    drupal_add_js('http://maps.google.com/maps/api/js?sensor=false', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/oms.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/GoogleMapsWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/rfc3339date.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/jquery.addtocal.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/lib/fullcalendar.min.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/CalendarWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/widgets/DateFilterWidget.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/js/iticoEvents.js', 'external');
+	    drupal_add_js('http://iann.pro/viewer/js/itico.theme.js', 'external'); 
+	
+		/* HTML */
+		$title = (!isset($_GET['title'])) ? '' : $_GET['title'];	  
+		$content= '
+		<div id="iann_wrap">
+		    <div class="iann_top">
+		        <div id="result_tabs"></div>
+		        <br/>
+' . '<small>' . $title . '</small>' . ' 
+		        <h1 class="iann_title"><span class="iann_orange">i</span><span class="iann_brown">ann</span></h1>
+		        <div id="iann_search" class="iann_cell"></div>				
+		        <div id="iann_advance_fields" style="display:none;"></div>
+		        <div class="clear"></div>
+		    </div>
+		    <div id="iann_results" class="iann_bottom"></div>
+		</div>
+		';	
+		return $content;
+	}
+	
+	
+
+?>

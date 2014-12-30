@@ -1,0 +1,6 @@
+name = iAnn viewer
+description = View iAnn annoucements
+package = ITICO
+core = 7.x
+ 
+files[] = iannviewer.module
